@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const salarySchema = mongoose.Schema({
+const employeeSalarySchema = mongoose.Schema({
   name: { required: true, type: String },
   salary: { required: true, type: Number },
   currency: {
@@ -13,6 +13,6 @@ const salarySchema = mongoose.Schema({
   sub_department: { required: false, type: String },
 });
 
-const Salary = mongoose.model('Salary', salarySchema);
+const EmployeeSalary = mongoose.model('EmployeeSalary', employeeSalarySchema);
 
-export default Salary;
+export default EmployeeSalary;

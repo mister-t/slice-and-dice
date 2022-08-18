@@ -1,11 +1,16 @@
 import request from 'supertest';
 import server from '../server.js';
+import { connectDB, closeConn, clearColl } from '../config/db.js';
 
-beforeAll((done) => {
-  done();
+beforeAll(async () => {
+  await connectDB();
 });
-afterAll((done) => {
-  server.close(() => done());
+
+afterEach(async () => await clearColl());
+
+afterAll(async () => {
+  await closeConn();
+  await server.close();
 });
 
 describe('Salary Summary Statistics endpoints', () => {
