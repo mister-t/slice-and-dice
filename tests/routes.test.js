@@ -34,4 +34,13 @@ describe('Salary Summary Statistics endpoints', () => {
     expect(body).toHaveProperty('currency');
     expect(body).toHaveProperty('department');
   });
+
+  it('should return an error code and message when it fails to create a new salary entry', async () => {
+    const res = await request(server).post('/api/salaries').send({
+      name: 'Test User',
+      salary: 100000,
+    });
+    expect(res.status).toEqual(400);
+    expect(res.text).toMatch(/ValidatorError/);
+  });
 });
