@@ -1,6 +1,7 @@
 import EmployeeSalary from '../models/employeeSalaryModel';
+import asyncHandler from 'express-async-handler';
 
-const createEmployeeSalary = async (req, res) => {
+const createEmployeeSalary = asyncHandler(async (req, res) => {
   try {
     const { body } = req;
     if (!body) res.status(400);
@@ -19,8 +20,9 @@ const createEmployeeSalary = async (req, res) => {
     await employeeSalary.save();
     res.status(201).json(employeeSalary);
   } catch (err) {
-    res.status(400).send(err);
+    res.status(400);
+    throw new Error(`Please check that all required parameters are passed`);
   }
-};
+});
 
 export default { createEmployeeSalary };

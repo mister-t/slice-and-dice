@@ -1,6 +1,10 @@
 import request from 'supertest';
 import server from '../server.js';
 import { connectDB, closeConn, clearColl } from '../config/db.js';
+import {
+  ERR_MSG_CREATE,
+  ERR_MSG_UNKNOWN_ROUTE,
+} from '../constants/errorMessages.js';
 
 beforeAll(async () => {
   await connectDB();
@@ -41,6 +45,12 @@ describe('Salary Summary Statistics endpoints', () => {
       salary: 100000,
     });
     expect(res.status).toEqual(400);
-    expect(res.text).toMatch(/ValidatorError/);
+    expect(res.text).toMatch(ERR_MSG_CREATE);
+  });
+
+  it('should return a route-not-found error when an unknown route is accessed', async () => {
+    const res = await request(server).get('/api/unknownRoute');
+    expect(res.status).toEqual(404);
+    expect(res.text).toMatch(ERR_MSG_UNKNOWN_ROUTE);
   });
 });
