@@ -7,7 +7,7 @@
     ]
   },
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand --coverage ./tests"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand --coverage --detectOpenHandles ./tests"
   },
   "dependencies": {
     "colors": "^1.4.0",

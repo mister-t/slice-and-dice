@@ -1,4 +1,4 @@
-export default summaries = [
+export default salaries = [
   {
     name: 'Abhishek',
     salary: '145000',
