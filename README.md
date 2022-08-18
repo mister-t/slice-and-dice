@@ -2,8 +2,8 @@
 
 ##Requirements
 
-- [ ] An API to add a new record to the dataset.
-- [ ] Should have an example of running adding a new record.
+- [x] An API to add a new record to the dataset.
+- [x] Should have an example of running adding a new record.
 - [ ] Should have an example of failing to add a new record.
 - [ ] document the case to run both insertions in the README.
 - [ ] An API to delete a record from the dataset.

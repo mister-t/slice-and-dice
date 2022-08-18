@@ -15,15 +15,23 @@ afterAll(async () => {
 
 describe('Salary Summary Statistics endpoints', () => {
   it('should create a new salary entry', async () => {
-    const res = await request(server).post('/api/salaries').send({
-      name: 'Test User',
-      salary: 100000,
-      currency: 'USD',
-      on_contract: true,
-      department: 'Engineering',
-      sub_deparment: 'Platform',
-    });
-    expect(res.statusCode).toEqual(201);
-    expect(res.body).toHaveProperty('salary');
+    const res = await request(server)
+      .post('/api/salaries')
+      .send({
+        name: 'Test User',
+        salary: 100000,
+        currency: 'USD',
+        on_contract: true,
+        department: 'Engineering',
+        sub_deparment: 'Platform',
+      })
+      .expect('Content-Type', /json/)
+      .expect(201);
+    const { body } = res;
+    expect(body).toHaveProperty('_id');
+    expect(body).toHaveProperty('name');
+    expect(body).toHaveProperty('salary');
+    expect(body).toHaveProperty('currency');
+    expect(body).toHaveProperty('department');
   });
 });

@@ -6,12 +6,6 @@ const createEmployeeSalary = async (req, res) => {
 
   const { name, salary, currency, on_contract, department, sub_department } =
     req.body;
-  // name: 'Test User',
-  // salary: 100000,
-  // currency: 'USD',
-  // on_contract: true,
-  // department: 'Engineering',
-  // sub_deparment: 'Platform',
   const employeeSalary = new EmployeeSalary({
     name,
     salary,
