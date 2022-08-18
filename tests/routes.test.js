@@ -18,7 +18,7 @@ afterAll(async () => {
 });
 
 describe('Salary Summary Statistics endpoints', () => {
-  it('should create a new salary entry', async () => {
+  it('should create a new employee salary entry', async () => {
     const res = await request(server)
       .post('/api/salaries')
       .send({
@@ -48,6 +48,21 @@ describe('Salary Summary Statistics endpoints', () => {
     expect(res.text).toMatch(ERR_MSG_CREATE);
   });
 
+  it('should delete an employee salary entry', async () => {
+    const res = await request(server)
+      .post('/api/salaries')
+      .send({
+        name: 'User to be deleted',
+        salary: 100000,
+        currency: 'USD',
+        department: 'Engineering',
+      })
+      .expect('Content-Type', /json/)
+      .expect(201);
+    expect(res.body).toHaveProperty('_id');
+
+    await request(server).delete(`/api/salaries/${res.body._id}`).expect(204);
+  });
   it('should return a route-not-found error when an unknown route is accessed', async () => {
     const res = await request(server).get('/api/unknownRoute');
     expect(res.status).toEqual(404);

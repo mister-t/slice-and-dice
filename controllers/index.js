@@ -1,5 +1,6 @@
 import EmployeeSalary from '../models/employeeSalaryModel';
 import asyncHandler from 'express-async-handler';
+import { ERR_MSG_CREATE, ERR_MSG_DELETE } from '../constants/errorMessages';
 
 const createEmployeeSalary = asyncHandler(async (req, res) => {
   try {
@@ -21,8 +22,19 @@ const createEmployeeSalary = asyncHandler(async (req, res) => {
     res.status(201).json(employeeSalary);
   } catch (err) {
     res.status(400);
-    throw new Error(`Please check that all required parameters are passed`);
+    throw new Error(ERR_MSG_CREATE);
   }
 });
 
-export default { createEmployeeSalary };
+const deleteEmployeeSalary = asyncHandler(async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log(`employee id to be deleted: ${id}`);
+    res.sendStatus(204);
+  } catch (err) {
+    res.sendStatus(400);
+    throw new Error(ERR_MSG_DELETE);
+  }
+});
+
+export default { createEmployeeSalary, deleteEmployeeSalary };
