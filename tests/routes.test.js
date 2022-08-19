@@ -60,7 +60,7 @@ describe('Salary Summary Statistics endpoints', () => {
       '/api/salaries/statistics?currency=EUR'
     );
     const { stats } = res.body;
-    console.log(stats);
+    // console.log(stats);
     expect(stats.length).toEqual(1);
     expect(res.status).toEqual(200);
     stats.forEach((stat) => {
@@ -88,6 +88,16 @@ describe('Salary Summary Statistics endpoints', () => {
       expect(max).toEqual(110000);
       expect(min).toEqual(90000);
     });
+  });
+
+  it.skip('should return the "by_department" summary statistics of mean, min, and max', async () => {
+    const res = await request(server).get(
+      '/api/salaries/statistics?by_department=true'
+    );
+    const { stats } = res.body;
+    console.log(stats);
+    expect(stats.length).toEqual(3);
+    expect(res.status).toEqual(200);
   });
 
   it('should create a new employee salary entry', async () => {
