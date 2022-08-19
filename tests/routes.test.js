@@ -1,16 +1,18 @@
 import request from 'supertest';
 import server from '../server.js';
 import { connectDB, closeConn, clearColl } from '../config/db.js';
+import { importData } from '../data/dbSeeder.js';
+
 import {
   ERR_MSG_CREATE,
   ERR_MSG_UNKNOWN_ROUTE,
 } from '../constants/errorMessages.js';
 
 beforeAll(async () => {
-  await connectDB();
+  await importData();
 });
 
-afterEach(async () => await clearColl());
+// afterEach(async () => await clearColl());
 
 afterAll(async () => {
   await closeConn();
@@ -18,6 +20,13 @@ afterAll(async () => {
 });
 
 describe('Salary Summary Statistics endpoints', () => {
+  it('should have not have an empty database when the server started', async () => {
+    const res = await request(server).get('/api/salaries');
+    const { length } = Object.keys(res.body);
+    expect(length).toBeGreaterThan(0);
+    expect(res.status).toEqual(200);
+  });
+
   it('should create a new employee salary entry', async () => {
     const res = await request(server)
       .post('/api/salaries')

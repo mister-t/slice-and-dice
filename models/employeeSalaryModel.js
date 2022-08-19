@@ -6,7 +6,7 @@ const employeeSalarySchema = mongoose.Schema({
   currency: {
     required: true,
     type: String,
-    enum: ['USD', 'EUR', 'INDR'],
+    enum: ['USD', 'EUR', 'INR'],
   },
   on_contract: { required: false, type: Boolean },
   department: { required: true, type: String },

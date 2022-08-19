@@ -5,7 +5,7 @@ import { urlNotFound, errorHandler } from './middlewares/errorMiddleware.js';
 
 const app = express();
 app.use(express.json());
-app.use('/api', routes);
+app.use('/api/salaries', routes);
 
 const port = process.env.PORT || 3000;
 

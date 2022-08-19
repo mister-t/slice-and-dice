@@ -3,7 +3,8 @@ import controllers from '../controllers/index.js';
 
 const router = Router();
 
-router.post('/salaries', controllers.createEmployeeSalary);
-router.delete('/salaries/:id', controllers.deleteEmployeeSalary);
+router.get('/', controllers.getEmployeeSalaries);
+router.post('/', controllers.createEmployeeSalary);
+router.delete('/:id', controllers.deleteEmployeeSalary);
 
 export default router;

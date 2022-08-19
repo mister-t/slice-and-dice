@@ -6,10 +6,10 @@
 - [x] Should have an example of running adding a new record.
 - [x] Should have an example of failing to add a new record.
 - [ ] Document the case to run both insertions in the README.
-- [ ] An API to delete a record from the dataset.
-- [ ] Should have an example of deleting a record.
-- [ ] Should have an example of failing to delete a record.
-- [ ] document the case to run both deletion in the README.
+- [x] An API to delete a record from the dataset.
+- [x] Should have an example of deleting a record.
+- [x] Should have an example of failing to delete a record.
+- [ ] Document the case to run both deletion in the README.
 - [ ] Load example dataset into the DB.
 - [ ] An API to fetch summary statistics for salary over the entire dataset. You can ignore the currency (if not mentioned otherwise) of the salary and simply treat salary as a number.
 - [ ] Should have an example of fetching the entire dataset.

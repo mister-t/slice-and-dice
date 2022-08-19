@@ -1,4 +1,4 @@
-export default salaries = [
+const salaries = [
   {
     name: 'Abhishek',
     salary: '145000',
@@ -65,3 +65,4 @@ export default salaries = [
     sub_department: 'Platform',
   },
 ];
+export default salaries;

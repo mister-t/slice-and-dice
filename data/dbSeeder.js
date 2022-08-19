@@ -1,23 +1,24 @@
 import mongoose from 'mongoose';
 import colors from 'colors';
-import Salary from '../models/salaryModel.js';
+import EmployeeSalary from '../models/employeeSalaryModel.js';
 import { connectDB, closeConn } from '../config/db.js';
+import salaries from '../data/seed.js';
 
-const importData = async () => {
+export const importData = async () => {
   try {
     await connectDB();
-    await Salary.deleteMany();
+    await EmployeeSalary.deleteMany();
+    await EmployeeSalary.insertMany(salaries);
     console.log(`Data import successful!`.bgGreen);
   } catch (err) {
     console.log(`Data import failed: ${err.message}`.bgRed);
-    process.exit(1);
   }
 };
 
-const deleteData = async () => {
+export const deleteData = async () => {
   try {
     await connectDB();
-    await Salary.deleteMany();
+    await EmployeeSalary.deleteMany();
     await closeConn();
   } catch (err) {
     console.log(`Data deletion failed: ${err.message}`.bgRed);

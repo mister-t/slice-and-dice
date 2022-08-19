@@ -6,6 +6,17 @@ import {
   ERR_MSG_DELETE_ID_NOT_FOUND,
 } from '../constants/errorMessages.js';
 
+const getEmployeeSalaries = asyncHandler(async (req, res) => {
+  const salaries = await EmployeeSalary.find({});
+  if (salaries.length) {
+    res.status(200);
+    res.json(salaries);
+  } else {
+    res.status(204);
+    throw new Error('No employee salaries found');
+  }
+});
+
 const createEmployeeSalary = asyncHandler(async (req, res) => {
   try {
     const { body } = req;
@@ -45,4 +56,8 @@ const deleteEmployeeSalary = asyncHandler(async (req, res) => {
   }
 });
 
-export default { createEmployeeSalary, deleteEmployeeSalary };
+export default {
+  getEmployeeSalaries,
+  createEmployeeSalary,
+  deleteEmployeeSalary,
+};
