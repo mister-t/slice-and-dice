@@ -23,7 +23,7 @@ const getSummaryStatistics = asyncHandler(async (req, res) => {
   const pipeline = [];
 
   const { on_contract: onContract } = req.query;
-  if (onContract) pipeline.push({ $match: { on_contract: true } });
+  if (onContract === 'true') pipeline.push({ $match: { on_contract: true } });
 
   pipeline.push({
     $group: {

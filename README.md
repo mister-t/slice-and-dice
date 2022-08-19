@@ -13,7 +13,7 @@
 
    - [ ] Document the case to run both fetches in the README.
 
-4. [ ] An API to fetch summary statistics for salary for records which satisfy **on_contract: "true"**(passed in as query parameter).
+4. [x] An API to fetch summary statistics for salary for records which satisfy **on_contract: "true"**(passed in as query parameter).
 
    - [ ] document the case to run both fetches in the README.
 

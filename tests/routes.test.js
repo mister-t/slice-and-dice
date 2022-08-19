@@ -54,6 +54,25 @@ describe('Salary Summary Statistics endpoints', () => {
     });
   });
 
+  it('should return the "on_contract" summary statistics of mean, min, and max', async () => {
+    const currencies = ['USD', 'EUR', 'INR'];
+    const res = await request(server).get(
+      '/api/salaries/statistics?on_contract=true'
+    );
+    const { stats } = res.body;
+    console.log(stats);
+    expect(stats.length).toEqual(1);
+    expect(res.status).toEqual(200);
+    stats.forEach((stat) => {
+      const { _id, mean, max, min } = stat;
+      expect(currencies.includes(_id)).toBeTruthy();
+      expect(_id).toEqual('USD');
+      expect(mean).toEqual(100000);
+      expect(max).toEqual(110000);
+      expect(min).toEqual(90000);
+    });
+  });
+
   it('should create a new employee salary entry', async () => {
     const res = await request(server)
       .post('/api/salaries')
