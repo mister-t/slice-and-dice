@@ -9,7 +9,7 @@ import {
 } from '../constants/errorMessages.js';
 
 beforeAll(async () => {
-  await importData();
+  // await importData();
 });
 
 // afterEach(async () => await clearColl());

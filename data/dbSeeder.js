@@ -6,7 +6,7 @@ import salaries from '../data/seed.js';
 
 export const importData = async () => {
   try {
-    await connectDB();
+    // await connectDB();
     await EmployeeSalary.deleteMany();
     await EmployeeSalary.insertMany(salaries);
     console.log(`Data import successful!`.bgGreen);

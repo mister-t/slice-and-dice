@@ -2,6 +2,11 @@ import colors from 'colors';
 import express from 'express';
 import routes from './routes/index.js';
 import { urlNotFound, errorHandler } from './middlewares/errorMiddleware.js';
+import { connectDB } from './config/db.js';
+import { importData } from './data/dbSeeder.js';
+
+await connectDB();
+await importData();
 
 const app = express();
 app.use(express.json());
