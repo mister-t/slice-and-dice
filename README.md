@@ -11,6 +11,7 @@
 
 3. [x] An API to fetch summary statistics for salary over the entire dataset. You can ignore the currency (if not mentioned otherwise) of the salary and simply treat salary as a number.
 
+   - [ ] Fetch summary statistics for a specific currency.
    - [ ] Document the case to run both fetches in the README.
 
 4. [x] An API to fetch summary statistics for salary for records which satisfy **on_contract: "true"**(passed in as query parameter).

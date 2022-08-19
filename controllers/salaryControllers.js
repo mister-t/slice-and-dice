@@ -23,8 +23,10 @@ const getSummaryStatistics = asyncHandler(async (req, res) => {
   const pipeline = [];
 
   const { on_contract: onContract } = req.query;
-  if (onContract === 'true') pipeline.push({ $match: { on_contract: true } });
+  const matches = {};
+  if (onContract === 'true') matches['on_contract'] = true;
 
+  if (Object.keys(matches).length) pipeline.push({ $match: matches });
   pipeline.push({
     $group: {
       _id: '$currency',

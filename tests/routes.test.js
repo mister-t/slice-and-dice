@@ -60,7 +60,7 @@ describe('Salary Summary Statistics endpoints', () => {
       '/api/salaries/statistics?on_contract=true'
     );
     const { stats } = res.body;
-    console.log(stats);
+    // console.log(stats);
     expect(stats.length).toEqual(1);
     expect(res.status).toEqual(200);
     stats.forEach((stat) => {
