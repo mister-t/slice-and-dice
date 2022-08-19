@@ -28,18 +28,22 @@ const getSummaryStatistics = asyncHandler(async (req, res) => {
   if (on_contract === 'true') matches['on_contract'] = true;
   if (currency) matches['currency'] = currency.toUpperCase();
 
-  const groups = {
-    _id: '$currency',
-    mean: { $avg: '$salary' },
-    max: { $max: '$salary' },
-    min: { $min: '$salary' },
+  let groupings = {
+    $group: {
+      _id: '$currency',
+      mean: { $avg: '$salary' },
+      max: { $max: '$salary' },
+      min: { $min: '$salary' },
+    },
   };
-  // if (by_department === 'true') groups['_id'] = true;
+  if (by_department === 'true')
+    groupings.$group = {
+      ...groupings.$group,
+      _id: { currency: '$currency', department: '$department' },
+    };
 
   if (Object.keys(matches).length) pipeline.push({ $match: matches });
-  pipeline.push({
-    $group: groups,
-  });
+  pipeline.push(groupings);
   let stats = await EmployeeSalary.aggregate([pipeline]);
 
   if (stats.length) {

@@ -90,14 +90,38 @@ describe('Salary Summary Statistics endpoints', () => {
     });
   });
 
-  it.skip('should return the "by_department" summary statistics of mean, min, and max', async () => {
+  it('should return the "by_department" summary statistics of mean, min, and max', async () => {
     const res = await request(server).get(
       '/api/salaries/statistics?by_department=true'
     );
     const { stats } = res.body;
     console.log(stats);
-    expect(stats.length).toEqual(3);
+    expect(stats.length).toEqual(6);
     expect(res.status).toEqual(200);
+    let numDeptUs = 0;
+    let numDeptEu = 0;
+    let numDeptIn = 0;
+    const usDepts = ['Administrative', 'Engineering', 'Banking', 'Operations'];
+    const euDepts = ['Operations'];
+    const inDepts = ['Engineering'];
+    stats.forEach((stat) => {
+      const { _id, mean, max, min } = stat;
+      if (_id.currency === 'USD') {
+        expect(usDepts.includes(_id.department));
+        numDeptUs++;
+      }
+      if (_id.currency === 'EUR') {
+        expect(euDepts.includes(_id.department));
+        numDeptEu++;
+      }
+      if (_id.currency === 'INR') {
+        expect(inDepts.includes(_id.department));
+        numDeptIn++;
+      }
+    });
+    expect(numDeptUs).toEqual(usDepts.length);
+    expect(numDeptEu).toEqual(euDepts.length);
+    expect(numDeptIn).toEqual(inDepts.length);
   });
 
   it('should create a new employee salary entry', async () => {
