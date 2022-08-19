@@ -1,6 +1,6 @@
 import colors from 'colors';
 import express from 'express';
-import routes from './routes/index.js';
+import routes from './routes/salaries.js';
 import { urlNotFound, errorHandler } from './middlewares/errorMiddleware.js';
 import { connectDB } from './config/db.js';
 import { importData } from './data/dbSeeder.js';

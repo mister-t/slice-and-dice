@@ -29,7 +29,7 @@ describe('Salary Summary Statistics endpoints', () => {
     const currencies = ['USD', 'EUR', 'INR'];
     const res = await request(server).get('/api/salaries/statistics');
     const { stats } = res.body;
-    console.log(stats);
+    // console.log(stats);
     expect(stats.length).toBeGreaterThan(0);
     expect(res.status).toEqual(200);
     stats.forEach((stat) => {
