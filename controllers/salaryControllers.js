@@ -22,7 +22,7 @@ const getSummaryStatistics = asyncHandler(async (req, res) => {
   //find the mean, max, and min of salaryies by the currency
   const pipeline = [];
 
-  const { on_contract, by_department, currency } = req.query;
+  const { on_contract, by_dept, by_sub_dept, currency } = req.query;
 
   const matches = {};
   if (on_contract === 'true') matches['on_contract'] = true;
@@ -36,11 +36,21 @@ const getSummaryStatistics = asyncHandler(async (req, res) => {
       min: { $min: '$salary' },
     },
   };
-  if (by_department === 'true')
+  if (by_dept === 'true' && by_sub_dept === 'true') {
+    groupings.$group = {
+      ...groupings.$group,
+      _id: {
+        currency: '$currency',
+        department: '$department',
+        sub_department: '$sub_department',
+      },
+    };
+  } else if (by_dept === 'true') {
     groupings.$group = {
       ...groupings.$group,
       _id: { currency: '$currency', department: '$department' },
     };
+  }
 
   if (Object.keys(matches).length) pipeline.push({ $match: matches });
   pipeline.push(groupings);

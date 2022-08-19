@@ -90,12 +90,12 @@ describe('Salary Summary Statistics endpoints', () => {
     });
   });
 
-  it('should return the "by_department" summary statistics of mean, min, and max', async () => {
+  it('should return the "by_dept" summary statistics of mean, min, and max', async () => {
     const res = await request(server).get(
-      '/api/salaries/statistics?by_department=true'
+      '/api/salaries/statistics?by_dept=true'
     );
     const { stats } = res.body;
-    console.log(stats);
+    // console.log(stats);
     expect(stats.length).toEqual(6);
     expect(res.status).toEqual(200);
     let numDeptUs = 0;
@@ -105,7 +105,7 @@ describe('Salary Summary Statistics endpoints', () => {
     const euDepts = ['Operations'];
     const inDepts = ['Engineering'];
     stats.forEach((stat) => {
-      const { _id, mean, max, min } = stat;
+      const { _id } = stat;
       if (_id.currency === 'USD') {
         expect(usDepts.includes(_id.department));
         numDeptUs++;
@@ -122,6 +122,69 @@ describe('Salary Summary Statistics endpoints', () => {
     expect(numDeptUs).toEqual(usDepts.length);
     expect(numDeptEu).toEqual(euDepts.length);
     expect(numDeptIn).toEqual(inDepts.length);
+  });
+
+  it('should return the "by_dept" and "by_sub_dept" summary statistics of mean, min, and max', async () => {
+    const res = await request(server).get(
+      '/api/salaries/statistics?by_dept=true&by_sub_dept=true'
+    );
+    const { stats } = res.body;
+    // console.log(stats);
+    expect(stats.length).toBeGreaterThanOrEqual(6);
+    expect(res.status).toEqual(200);
+
+    stats.forEach((stat) => {
+      const { _id, mean, max, min } = stat;
+      const { currency, department, sub_department } = _id;
+      const isUsOpsCustomer = (currency, dept, subDept) =>
+        currency === 'USD' &&
+        dept === 'Operations' &&
+        subDept === 'CustomerOnboarding';
+      const isUsBankLoan = (currency, dept, subDept) =>
+        currency === 'USD' && dept === 'Banking' && subDept === 'Loan';
+      const isUsAdminAgri = (currency, dept, subDept) =>
+        currency === 'USD' &&
+        dept === 'Administrative' &&
+        subDept === 'Agriculture';
+      const isUsEngPlatform = (currency, dept, subDept) =>
+        currency === 'USD' && dept === 'Engineering' && subDept === 'Platform';
+      const isIndEngPlatform = (currency, dept, subDept) =>
+        currency === 'IND' && dept === 'Engineering' && subDept === 'Platform';
+      const isEuCustomerOnBoarding = (currency, dept, subDept) =>
+        currency === 'EUR' &&
+        dept === 'Operations' &&
+        subDept === 'CustomerOnboarding';
+
+      if (isUsOpsCustomer(currency, department, sub_department)) {
+        expect(mean).toEqual(30);
+        expect(max).toEqual(30);
+        expect(min).toEqual(30);
+      }
+
+      if (isUsBankLoan(currency, department, sub_department)) {
+        expect(mean).toEqual(90000);
+        expect(max).toEqual(90000);
+        expect(min).toEqual(90000);
+      }
+
+      if (isUsEngPlatform(currency, department, sub_department)) {
+        expect(mean).toEqual(123757.5);
+        expect(max).toEqual(240000);
+        expect(min).toEqual(30);
+      }
+
+      if (isIndEngPlatform(currency, department, sub_department)) {
+        expect(mean).toEqual(200000000);
+        expect(max).toEqual(200000000);
+        expect(min).toEqual(200000000);
+      }
+
+      if (isEuCustomerOnBoarding(currency, department, sub_department)) {
+        expect(mean).toEqual(70000);
+        expect(max).toEqual(70000);
+        expect(min).toEqual(70000);
+      }
+    });
   });
 
   it('should create a new employee salary entry', async () => {
@@ -167,9 +230,7 @@ describe('Salary Summary Statistics endpoints', () => {
       .expect(201);
     expect(res.body).toHaveProperty('_id');
 
-    const deletedRes = await request(server)
-      .delete(`/api/salaries/${res.body._id}`)
-      .expect(204);
+    await request(server).delete(`/api/salaries/${res.body._id}`).expect(204);
   });
 
   it('should return an error message if employee ID is non-existent', async () => {
