@@ -22,9 +22,10 @@ const getSummaryStatistics = asyncHandler(async (req, res) => {
   //find the mean, max, and min of salaryies by the currency
   const pipeline = [];
 
-  const { on_contract: onContract } = req.query;
+  const { on_contract: onContract, currency } = req.query;
   const matches = {};
   if (onContract === 'true') matches['on_contract'] = true;
+  if (currency) matches['currency'] = currency.toUpperCase();
 
   if (Object.keys(matches).length) pipeline.push({ $match: matches });
   pipeline.push({

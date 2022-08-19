@@ -8,6 +8,8 @@ import {
   ERR_MSG_UNKNOWN_ROUTE,
 } from '../constants/errorMessages.js';
 
+const currencies = ['USD', 'EUR', 'INR'];
+
 beforeAll(async () => {});
 
 // afterEach(async () => await clearColl());
@@ -26,7 +28,6 @@ describe('Salary Summary Statistics endpoints', () => {
   });
 
   it('should return the summary statistics of mean, min, and max', async () => {
-    const currencies = ['USD', 'EUR', 'INR'];
     const res = await request(server).get('/api/salaries/statistics');
     const { stats } = res.body;
     // console.log(stats);
@@ -54,8 +55,24 @@ describe('Salary Summary Statistics endpoints', () => {
     });
   });
 
+  it('should return the summary statistics of mean, min, and max for a specific currency', async () => {
+    const res = await request(server).get(
+      '/api/salaries/statistics?currency=EUR'
+    );
+    const { stats } = res.body;
+    console.log(stats);
+    expect(stats.length).toEqual(1);
+    expect(res.status).toEqual(200);
+    stats.forEach((stat) => {
+      const { _id, mean, max, min } = stat;
+      expect(_id).toEqual('EUR');
+      expect(mean).toEqual(70000);
+      expect(max).toEqual(70000);
+      expect(min).toEqual(70000);
+    });
+  });
+
   it('should return the "on_contract" summary statistics of mean, min, and max', async () => {
-    const currencies = ['USD', 'EUR', 'INR'];
     const res = await request(server).get(
       '/api/salaries/statistics?on_contract=true'
     );
