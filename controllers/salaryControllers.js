@@ -20,17 +20,20 @@ const getEmployeeSalaries = asyncHandler(async (req, res) => {
 
 const getSummaryStatistics = asyncHandler(async (req, res) => {
   //find the mean, max, and min of salaryies by the currency
-  const { on_contract } = req.query;
-  let stats = await EmployeeSalary.aggregate([
-    {
-      $group: {
-        _id: '$currency',
-        mean: { $avg: '$salary' },
-        max: { $max: '$salary' },
-        min: { $min: '$salary' },
-      },
+  const pipeline = [];
+
+  const { on_contract: onContract } = req.query;
+  if (onContract) pipeline.push({ $match: { on_contract: true } });
+
+  pipeline.push({
+    $group: {
+      _id: '$currency',
+      mean: { $avg: '$salary' },
+      max: { $max: '$salary' },
+      min: { $min: '$salary' },
     },
-  ]);
+  });
+  let stats = await EmployeeSalary.aggregate([pipeline]);
 
   if (stats.length) {
     res.status(200).json({ stats });

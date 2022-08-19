@@ -33,10 +33,24 @@ describe('Salary Summary Statistics endpoints', () => {
     expect(stats.length).toBeGreaterThan(0);
     expect(res.status).toEqual(200);
     stats.forEach((stat) => {
-      expect(currencies.includes(stat._id)).toBeTruthy();
-      expect(stat.mean).toBeGreaterThan(0);
-      expect(stat.max).toBeGreaterThan(0);
-      expect(stat.min).toBeGreaterThan(0);
+      const { _id, mean, max, min } = stat;
+
+      if (_id === 'INR') {
+        expect(currencies.includes(_id)).toBeTruthy();
+        expect(mean).toEqual(200000000);
+        expect(max).toEqual(200000000);
+        expect(min).toEqual(200000000);
+      } else if (_id === 'USD') {
+        expect(currencies.includes(_id)).toBeTruthy();
+        expect(mean).toBeGreaterThan(83584);
+        expect(max).toEqual(240000);
+        expect(min).toEqual(30);
+      } else {
+        expect(currencies.includes(_id)).toBeTruthy();
+        expect(mean).toEqual(70000);
+        expect(max).toEqual(70000);
+        expect(min).toEqual(70000);
+      }
     });
   });
 
