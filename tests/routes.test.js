@@ -61,8 +61,32 @@ describe('Salary Summary Statistics endpoints', () => {
       .expect(201);
     expect(res.body).toHaveProperty('_id');
 
-    await request(server).delete(`/api/salaries/${res.body._id}`).expect(204);
+    const deletedRes = await request(server)
+      .delete(`/api/salaries/${res.body._id}`)
+      .expect(204);
   });
+
+  it('should return an error message if employee ID is non-existent', async () => {
+    const res = await request(server)
+      .post('/api/salaries')
+      .send({
+        name: 'User to be deleted',
+        salary: 100000,
+        currency: 'USD',
+        department: 'Engineering',
+      })
+      .expect('Content-Type', /json/)
+      .expect(201);
+    expect(res.body).toHaveProperty('_id');
+
+    const deletedRes = await request(server)
+      .delete(`/api/salaries/62fecce0e483dfcfxxxxxxxx`)
+      .expect(400);
+    expect(deletedRes).toHaveProperty('text');
+    const text = JSON.parse(deletedRes.text);
+    expect(text).toHaveProperty('message');
+  });
+
   it('should return a route-not-found error when an unknown route is accessed', async () => {
     const res = await request(server).get('/api/unknownRoute');
     expect(res.status).toEqual(404);

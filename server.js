@@ -1,6 +1,6 @@
 import colors from 'colors';
 import express from 'express';
-import routes from './routes';
+import routes from './routes/index.js';
 import { urlNotFound, errorHandler } from './middlewares/errorMiddleware.js';
 
 const app = express();

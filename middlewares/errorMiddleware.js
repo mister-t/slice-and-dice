@@ -1,4 +1,4 @@
-import { ERR_MSG_UNKNOWN_ROUTE } from '../constants/errorMessages';
+import { ERR_MSG_UNKNOWN_ROUTE } from '../constants/errorMessages.js';
 
 const urlNotFound = (req, res, next) => {
   const error = new Error(`${ERR_MSG_UNKNOWN_ROUTE} - ${req.originalUrl}`);
