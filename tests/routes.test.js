@@ -8,9 +8,7 @@ import {
   ERR_MSG_UNKNOWN_ROUTE,
 } from '../constants/errorMessages.js';
 
-beforeAll(async () => {
-  // await importData();
-});
+beforeAll(async () => {});
 
 // afterEach(async () => await clearColl());
 
@@ -25,6 +23,21 @@ describe('Salary Summary Statistics endpoints', () => {
     const { length } = Object.keys(res.body);
     expect(length).toBeGreaterThan(0);
     expect(res.status).toEqual(200);
+  });
+
+  it('should return the summary statistics of mean, min, and max', async () => {
+    const currencies = ['USD', 'EUR', 'INR'];
+    const res = await request(server).get('/api/salaries/statistics');
+    const { stats } = res.body;
+    console.log(stats);
+    expect(stats.length).toBeGreaterThan(0);
+    expect(res.status).toEqual(200);
+    stats.forEach((stat) => {
+      expect(currencies.includes(stat._id)).toBeTruthy();
+      expect(stat.mean).toBeGreaterThan(0);
+      expect(stat.max).toBeGreaterThan(0);
+      expect(stat.min).toBeGreaterThan(0);
+    });
   });
 
   it('should create a new employee salary entry', async () => {

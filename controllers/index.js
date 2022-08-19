@@ -4,6 +4,7 @@ import {
   ERR_MSG_CREATE,
   ERR_MSG_DELETE,
   ERR_MSG_DELETE_ID_NOT_FOUND,
+  ERR_MSG_NO_SALARIES_FOUND,
 } from '../constants/errorMessages.js';
 
 const getEmployeeSalaries = asyncHandler(async (req, res) => {
@@ -13,7 +14,24 @@ const getEmployeeSalaries = asyncHandler(async (req, res) => {
     res.json(salaries);
   } else {
     res.status(204);
-    throw new Error('No employee salaries found');
+    throw new Error(ERR_MSG_NO_SALARIES_FOUND);
+  }
+});
+
+const getSummaryStatistics = asyncHandler(async (req, res) => {
+  //find the mean, max, and min of salaryies by the currency
+  let stats = await EmployeeSalary.aggregate().group({
+    _id: '$currency',
+    mean: { $avg: '$salary' },
+    max: { $max: '$salary' },
+    min: { $min: '$salary' },
+  });
+
+  if (stats.length) {
+    res.status(200).json({ stats });
+  } else {
+    res.status(204);
+    throw new Error(ERR_MSG_NO_SALARIES_FOUND);
   }
 });
 
@@ -58,6 +76,7 @@ const deleteEmployeeSalary = asyncHandler(async (req, res) => {
 
 export default {
   getEmployeeSalaries,
+  getSummaryStatistics,
   createEmployeeSalary,
   deleteEmployeeSalary,
 };

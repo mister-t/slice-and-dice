@@ -10,11 +10,11 @@
 - [x] Should have an example of deleting a record.
 - [x] Should have an example of failing to delete a record.
 - [ ] Document the case to run both deletion in the README.
-- [ ] Load example dataset into the DB.
-- [ ] An API to fetch summary statistics for salary over the entire dataset. You can ignore the currency (if not mentioned otherwise) of the salary and simply treat salary as a number.
-- [ ] Should have an example of fetching the entire dataset.
-- [ ] Should have an example of failing to fetch the entire dataset.
-- [ ] document the case to run both fetches in the README.
+- [x] Load example dataset into the DB.
+- [x] An API to fetch summary statistics for salary over the entire dataset. You can ignore the currency (if not mentioned otherwise) of the salary and simply treat salary as a number.
+- [x] Should have an example of fetching the entire dataset.
+- [x] Should have an example of failing to fetch the entire dataset.
+- [ ] Document the case to run both fetches in the README.
 - [ ] An API to fetch summary statistics for salary for records which satisfy "on_contract": "true".
 - [ ] Should have an example of fetching the salary with "on_contract: true" attribute.
 - [ ] Should have an example of failing to fetch the salary with "on_contract: true" attribute.
