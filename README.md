@@ -18,11 +18,11 @@
 
    - [ ] document the case to run both fetches in the README.
 
-5. [ ] An API to fetch summary statistics for salary for each department. This means that whatever you’ll do in Step 3, should be done for each department. The return of this API should have **1 summary statistics available for each unique department**.
+5. [x] An API to fetch summary statistics for salary for each department. This means that whatever you’ll do in Step 3, should be done for each department. The return of this API should have **1 summary statistics available for each unique department**.
 
    - [ ] document the case to run both fetches in the README.
 
-6. [ ] An API to fetch **summary statistics for salary for each department and sub-department combination**. This is similar to Case 5 but 1 level of nested aggregation.
+6. [x] An API to fetch **summary statistics for salary for each department and sub-department combination**. This is similar to Case 5 but 1 level of nested aggregation.
 
    - [ ] document the case to run both fetches in the README.
 
